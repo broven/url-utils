@@ -24,8 +24,14 @@ const isSeasonPack = (title: string) => {
     }
 }
 export const animateFilter = (content: string) => {
-  const parsedFeed = convert.xml2js(content, { compact: true});
-  return convert.js2xml(parsedFeed, {compact: true});
+  const parsedFeed:any = convert.xml2js(content, { compact: true});
+  parsedFeed.rss.channel.item = parsedFeed.rss.channel.item.map((item: any) => {
+    const title = item.title._text;
+    if (isSeasonPack(title)) return null;
+    if (isTraditionalChinese(title)) return null;
+   return item;
+  }).filter((i: any) => i !== null);
+  return convert.js2xml(parsedFeed, {compact: true, spaces: 4});
 }
 
 
