@@ -12,6 +12,12 @@ export enum IResolution {
   r720p = '720p',
   rUnknown = 'unknown'
 }
+export  const IResolutionPriority = {
+  [IResolution.r1080p]: 10,
+  [IResolution.r720p]: 5,
+  [IResolution.rUHD]: 4,
+  [IResolution.rUnknown]: 1
+}
 export class AnimateTitleMetaParser {
   private rawTitle: string;
   constructor(title: string) {
@@ -65,14 +71,16 @@ export class AnimateTitleMetaParser {
       const _reg = new RegExp(splitter, 'g');
       title = title.replace(_reg, '~~~');
     }
-    console.log(title);
     for (const reg of regArr) {
-      const match = reg.exec(this.rawTitle);
+      const match = reg.exec(title);
       if (match) {
         return parseInt(match[1]);
       }
     }
     return -1;
+  }
+  get videoId(): string {
+    return `S${this.season}-E${this.episode}`
   }
 }
 export const animateFilter = (content: string) => {
@@ -83,7 +91,27 @@ export const animateFilter = (content: string) => {
     if (metaParser.isSeasonPack) return null;
     if (metaParser.isTraditionalChinese) return null;
    return item;
-  }).filter((i: any) => i !== null);
+  })
+  .filter((i: any) => i !== null)
+
+  parsedFeed.rss.channel.item = parsedFeed.rss.channel.item
+  .filter((item: any) => {
+    // 过滤相同视频最高分辨率
+    const itemMeta = new AnimateTitleMetaParser(item.title._text);
+    const isExistHigherResolution = (parsedFeed.rss.channel.item as any[]).findIndex(i => {
+      const title = i.title._text;
+      const metaParser = new AnimateTitleMetaParser(title);
+      if (metaParser.videoId === itemMeta.videoId) {
+        if (IResolutionPriority[metaParser.resolution] > IResolutionPriority[itemMeta.resolution]) {
+          return true;
+        }
+      }
+    });
+    if (isExistHigherResolution !== -1) return null;
+    return item;
+  })
+  .filter((i: any) => i !== null)
+
   return convert.js2xml(parsedFeed, {compact: true, spaces: 4});
 }
 
