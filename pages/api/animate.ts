@@ -90,6 +90,7 @@ export const animateFilter = (content: string) => {
     const metaParser = new AnimateTitleMetaParser(title);
     if (metaParser.isSeasonPack) return null;
     if (metaParser.isTraditionalChinese) return null;
+    item.title._text = `${title} - E${metaParser.episode}`
    return item;
   })
   .filter((i: any) => i !== null)
