@@ -1,0 +1,9 @@
+.body {
+    width: 100%;
+}
+.searchBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
