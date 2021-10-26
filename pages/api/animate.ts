@@ -51,6 +51,8 @@ export class AnimateTitleMetaParser {
     switch(true) {
         case text.indexOf('BIG5') !== -1:
         case text.indexOf('CHT') !== -1:
+        case text.indexOf('繁体') !== -1:
+        case text.indexOf('繁日双语') !== -1:
             return true;
         default:
             return false;
