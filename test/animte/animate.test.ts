@@ -66,6 +66,14 @@ describe('metaparser testing', () => {
       -1,
       2,
     ],
+    [
+      '【动漫国字幕组】★07月新番[摇曳庄的幽奈小姐 / 汤摇庄的幽奈同学][12 END][720P][简体][MP4]',
+      IResolution.r720p,
+      false,
+      true,
+      -1,
+      12
+    ]
   ])(
     'AnimateTitleMetaParser %s',
     (title, resolution, isSeasonPack, isChinese, season, ep) => {

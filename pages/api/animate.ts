@@ -31,6 +31,7 @@ export class AnimateTitleMetaParser {
       case t.indexOf('1920X1080') !== -1:
         return IResolution.r1080p;
       case t.indexOf('720p') !== -1:
+      case t.indexOf('720P') !== -1:
       case t.indexOf('1280X720') !== -1:
         return IResolution.r720p;
       default:
@@ -74,11 +75,11 @@ export class AnimateTitleMetaParser {
       for (const splitter of splitters) {
         const _reg = new RegExp(splitter, 'g');
         title = title.replace(_reg, '~~~');
-        for (const reg of regArr) {
-          const match = reg.exec(title);
-          if (match) {
-            return parseInt(match[1]);
-          }
+      }
+      for (const reg of regArr) {
+        const match = reg.exec(title);
+        if (match) {
+          return parseInt(match[1]);
         }
       }
     }
