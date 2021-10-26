@@ -28,6 +28,7 @@ describe.each([
     ['【动漫国字幕组】★07月新番[碧水白沙 / 白沙的水族馆][11-14][1080P][繁体][MP4]', IResolution.r1080p, false, false, -1, -1], // 这种的集数简直毒瘤
     ['[喵萌奶茶屋&LoliHouse] 平家物语 / Heike Monogatari - 03 [WebRip 1080p HEVC-10bit AAC][简繁日内封字幕]', IResolution.r1080p, false, false, -1, 3],
     ['【喵萌Production】★07月新番★[Love Live! Superstar!! / ラブライブ！スーパースター!!][11][1080p][繁日双语][招募翻译]', IResolution.r1080p, false, false, -1, 11],
+    ['[桜都字幕组] 180秒能让你的耳朵幸福吗？ / 180 Byou de Kimi no Mimi o Shiawase ni Dekiru ka？ [02][720p][繁体内嵌]', IResolution.r720p, false, false, -1, 2],
 ])('AnimateTitleMetaParser %s', (title, resolution, isSeasonPack, isChinese, season, ep) => {
     const metaParser = new AnimateTitleMetaParser(title);
     test('分辨率', () => {

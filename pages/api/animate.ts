@@ -61,20 +61,23 @@ export class AnimateTitleMetaParser {
   }
   get episode(): number {
     const splitterArr = [
-      /】/, /【/, /\[/, /\]/, /\s/
+      [/】/, /【/, /\[/, /\]/,],
+      [ /\s/]
     ];
     const regArr = [
       /~~~(\d{1,})~~~/
     ];
     let title = this.rawTitle;
-    for (const splitter of splitterArr) {
-      const _reg = new RegExp(splitter, 'g');
-      title = title.replace(_reg, '~~~');
-    }
-    for (const reg of regArr) {
-      const match = reg.exec(title);
-      if (match) {
-        return parseInt(match[1]);
+    for (const splitters of splitterArr) {
+      for (const splitter of splitters) {
+        const _reg = new RegExp(splitter, 'g');
+        title = title.replace(_reg, '~~~');
+        for (const reg of regArr) {
+          const match = reg.exec(title);
+          if (match) {
+            return parseInt(match[1]);
+          }
+        }
       }
     }
     return -1;
@@ -90,7 +93,7 @@ export const animateFilter = (content: string) => {
     const metaParser = new AnimateTitleMetaParser(title);
     if (metaParser.isSeasonPack) return null;
     if (metaParser.isTraditionalChinese) return null;
-    item.title._text = `${title} - E${metaParser.episode}`
+    // item.title._text = `${title} - E${metaParser.episode}`
    return item;
   })
   .filter((i: any) => i !== null)
